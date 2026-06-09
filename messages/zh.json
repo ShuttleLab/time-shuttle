@@ -71,6 +71,7 @@
     "input": "输入",
     "output": "输出",
     "now": "当前",
+    "liveTitle": "当前 Unix 时间戳",
     "tabFormats": "格式",
     "tabTimezone": "时区",
     "tabBatch": "批量",

@@ -71,6 +71,7 @@
     "input": "Input",
     "output": "Output",
     "now": "Now",
+    "liveTitle": "Current Unix Timestamp",
     "tabFormats": "Formats",
     "tabTimezone": "Timezone",
     "tabBatch": "Batch",

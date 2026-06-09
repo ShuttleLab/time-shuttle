@@ -5,7 +5,6 @@ import { useTranslations, useLocale } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, Clock, Copy, ArrowRightLeft, RefreshCw, Globe, Zap, DollarSign } from "lucide-react";
@@ -132,8 +131,9 @@ export function HomeContent() {
     });
   };
 
-  const swapMode = () => {
-    setMode(mode === "timestamp-to-date" ? "date-to-timestamp" : "timestamp-to-date");
+  const selectMode = (m: Mode) => {
+    if (m === mode) return;
+    setMode(m);
     setInput("");
     setResult(null);
   };
@@ -162,43 +162,72 @@ export function HomeContent() {
 
   return (
     <div>
-      <section className="max-w-5xl mx-auto px-4 pt-8 pb-4 text-center">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">Time Shuttle</h1>
-        <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-3">{t("subtitle")}</p>
-        <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium">
-          <Shield className="size-3.5" />
+      <section className="max-w-3xl mx-auto px-4 pt-10 pb-5 text-center">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">Time Shuttle</h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-5 leading-relaxed">{t("subtitle")}</p>
+        <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium">
+          <Shield className="size-4" />
           {t("privacyBadge")}
         </div>
       </section>
 
-      <section id="tool" className="max-w-5xl mx-auto px-4 pb-16">
+      <section className="max-w-3xl mx-auto px-4 mb-6">
+        <Card className="shadow-sm">
+          <CardContent className="p-5 sm:p-6">
+            <p className="text-center text-sm font-medium text-muted-foreground mb-4">{tt("liveTitle")}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="flex flex-col items-center text-center">
+                <p className="text-xs text-muted-foreground mb-1">{tt("unixSeconds")}</p>
+                <p className="text-3xl sm:text-4xl font-mono font-bold tracking-tight tabular-nums break-all">{nowTs.seconds}</p>
+                <Button variant="outline" size="sm" onClick={() => copyToClipboard(nowTs.seconds, tt("unixSeconds"))} className="mt-2.5" aria-label={`${tt("copy")} ${tt("unixSeconds")}`}>
+                  <Copy className="size-4 mr-1.5" />{tt("copy")}
+                </Button>
+              </div>
+              <div className="flex flex-col items-center text-center sm:border-l sm:border-border">
+                <p className="text-xs text-muted-foreground mb-1">{tt("unixMilliseconds")}</p>
+                <p className="text-3xl sm:text-4xl font-mono font-bold tracking-tight tabular-nums break-all">{nowTs.milliseconds}</p>
+                <Button variant="outline" size="sm" onClick={() => copyToClipboard(nowTs.milliseconds, tt("unixMilliseconds"))} className="mt-2.5" aria-label={`${tt("copy")} ${tt("unixMilliseconds")}`}>
+                  <Copy className="size-4 mr-1.5" />{tt("copy")}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section id="tool" className="max-w-3xl mx-auto px-4 pb-16">
         <Card className="shadow-lg">
           <CardContent className="p-4 sm:p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="mb-4 grid w-full grid-cols-4">
-                <TabsTrigger value="converter">{tt("tabFormats")}</TabsTrigger>
-                <TabsTrigger value="timezone">{tt("tabTimezone")}</TabsTrigger>
-                <TabsTrigger value="batch">{tt("tabBatch")}</TabsTrigger>
-                <TabsTrigger value="now">{tt("tabNow")}</TabsTrigger>
+              <TabsList className="mb-5 grid h-12 w-full grid-cols-3">
+                <TabsTrigger value="converter" className="text-sm sm:text-base">{tt("tabFormats")}</TabsTrigger>
+                <TabsTrigger value="timezone" className="text-sm sm:text-base">{tt("tabTimezone")}</TabsTrigger>
+                <TabsTrigger value="batch" className="text-sm sm:text-base">{tt("tabBatch")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="converter">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant={mode === "timestamp-to-date" ? "default" : "secondary"}>
+                  <div className="grid grid-cols-2 gap-1.5 p-1.5 bg-muted rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => selectMode("timestamp-to-date")}
+                      aria-pressed={mode === "timestamp-to-date"}
+                      className={`flex items-center justify-center gap-1.5 h-12 rounded-lg text-sm sm:text-base font-semibold transition-colors ${mode === "timestamp-to-date" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                    >
                       {tt("timestampToDate")}
-                    </Badge>
-                    <Button variant="ghost" size="sm" onClick={swapMode} className="h-8">
-                      <ArrowRightLeft className="size-4 mr-1" />
-                      {tt("swap")}
-                    </Button>
-                    <Badge variant={mode === "date-to-timestamp" ? "default" : "secondary"}>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectMode("date-to-timestamp")}
+                      aria-pressed={mode === "date-to-timestamp"}
+                      className={`flex items-center justify-center gap-1.5 h-12 rounded-lg text-sm sm:text-base font-semibold transition-colors ${mode === "date-to-timestamp" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                    >
                       {tt("dateToTimestamp")}
-                    </Badge>
+                    </button>
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">{tt("input")}</label>
+                    <label className="text-base font-medium mb-1.5 block">{tt("input")}</label>
                     <Textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -209,7 +238,7 @@ export function HomeContent() {
 
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-sm font-medium">{tt("output")}</label>
+                      <label className="text-base font-medium">{tt("output")}</label>
                       {result && (
                         <Button variant="ghost" size="sm" onClick={() => {
                           const text = result ? [
@@ -222,8 +251,8 @@ export function HomeContent() {
                             `${tt("relativeTime")}: ${result.relativeTime}`,
                           ].join("\n") : "";
                           copyToClipboard(text, tt("allFormats"));
-                        }} className="h-7 text-xs" aria-label={tt("copyResult")}>
-                          <Copy className="size-3 mr-1" />
+                        }} aria-label={tt("copyResult")}>
+                          <Copy className="size-4 mr-1" />
                           {tt("copyResult")}
                         </Button>
                       )}
@@ -239,11 +268,11 @@ export function HomeContent() {
                           { label: tt("localized"), value: result.localized, copy: true },
                           { label: tt("relativeTime"), value: result.relativeTime, copy: false },
                         ].map((item) => (
-                          <div key={item.label} className="flex items-center gap-2 p-2 rounded-md bg-muted/50 text-sm">
-                            <span className="font-medium min-w-32 shrink-0 text-muted-foreground">{item.label}</span>
+                          <div key={item.label} className="flex items-center gap-2 p-2.5 rounded-md bg-muted/50 text-base">
+                            <span className="font-medium min-w-32 shrink-0 text-muted-foreground text-sm">{item.label}</span>
                             <span className="font-mono flex-1 break-all">{item.value}</span>
                             {item.copy && (
-                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(item.value, item.label)} className="h-6 shrink-0" aria-label={`${tt("copy")} ${item.label}`}>
+                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(item.value, item.label)} className="size-8 shrink-0" aria-label={`${tt("copy")} ${item.label}`}>
                                 <Copy className="size-3" />
                               </Button>
                             )}
@@ -265,7 +294,7 @@ export function HomeContent() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium mb-1.5 block">{tt("sourceTimezone")}</label>
+                      <label className="text-base font-medium mb-1.5 block">{tt("sourceTimezone")}</label>
                       <Select value={sourceTz} onValueChange={(v) => { if (v) setSourceTz(v); }}>
                         <SelectTrigger className="w-full">
                           <SelectValue>{formatTimezoneLabel(sourceTz)}</SelectValue>
@@ -280,7 +309,7 @@ export function HomeContent() {
                       </Select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium mb-1.5 block">{tt("targetTimezone")}</label>
+                      <label className="text-base font-medium mb-1.5 block">{tt("targetTimezone")}</label>
                       <Select value={targetTz} onValueChange={(v) => { if (v) setTargetTz(v); }}>
                         <SelectTrigger className="w-full">
                           <SelectValue>{formatTimezoneLabel(targetTz)}</SelectValue>
@@ -297,7 +326,7 @@ export function HomeContent() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">{tt("input")}</label>
+                    <label className="text-base font-medium mb-1.5 block">{tt("input")}</label>
                     <Textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -308,12 +337,12 @@ export function HomeContent() {
 
                   {tzTargetResult && (
                     <div className="space-y-2">
-                      <label className="text-sm font-medium block">{tt("output")}</label>
+                      <label className="text-base font-medium block">{tt("output")}</label>
                       <div className="flex items-center gap-2 p-3 rounded-md bg-muted/50">
                         <Globe className="size-4 text-muted-foreground shrink-0" />
                         <span className="text-xs text-muted-foreground min-w-28 shrink-0 break-all">{formatTimezoneLabel(sourceTz)}</span>
                         <span className="font-mono flex-1 break-all">{tzSourceResult}</span>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzSourceResult, formatTimezoneLabel(sourceTz))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("sourceTimezone")}`}>
+                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzSourceResult, formatTimezoneLabel(sourceTz))} className="size-8 shrink-0" aria-label={`${tt("copy")} ${tt("sourceTimezone")}`}>
                           <Copy className="size-3" />
                         </Button>
                       </div>
@@ -321,7 +350,7 @@ export function HomeContent() {
                         <Globe className="size-4 text-primary shrink-0" />
                         <span className="text-xs text-muted-foreground min-w-28 shrink-0 break-all">{formatTimezoneLabel(targetTz)}</span>
                         <span className="font-mono flex-1 break-all">{tzTargetResult}</span>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzTargetResult, formatTimezoneLabel(targetTz))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("targetTimezone")}`}>
+                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzTargetResult, formatTimezoneLabel(targetTz))} className="size-8 shrink-0" aria-label={`${tt("copy")} ${tt("targetTimezone")}`}>
                           <Copy className="size-3" />
                         </Button>
                       </div>
@@ -333,7 +362,7 @@ export function HomeContent() {
               <TabsContent value="batch">
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">{tt("input")}</label>
+                    <label className="text-base font-medium mb-1.5 block">{tt("input")}</label>
                     <Textarea
                       value={batchInput}
                       onChange={(e) => setBatchInput(e.target.value)}
@@ -342,22 +371,22 @@ export function HomeContent() {
                     />
                   </div>
 
-                  <Button onClick={handleBatchConvert} className="h-10">
+                  <Button onClick={handleBatchConvert} size="lg" className="w-full sm:w-auto">
                     <RefreshCw className="size-4 mr-1.5" />
                     {tt("convert")}
                   </Button>
 
                   {batchResults.length > 0 && (
                     <div>
-                      <label className="text-sm font-medium mb-1.5 block">{tt("output")}</label>
+                      <label className="text-base font-medium mb-1.5 block">{tt("output")}</label>
                       <div className="space-y-1">
                         {batchResults.map((r, i) => (
-                          <div key={i} className="flex items-center gap-2 p-2 rounded-md bg-muted/50 text-sm font-mono">
+                          <div key={i} className="flex items-center gap-2 p-2.5 rounded-md bg-muted/50 text-base font-mono">
                             <span className="text-muted-foreground min-w-28">{r.input}</span>
                             <ArrowRightLeft className="size-3 text-muted-foreground shrink-0" />
                             <span className={`flex-1 break-all ${r.valid ? "" : "text-destructive"}`}>{r.valid ? r.output : tt("invalidTimestamp")}</span>
                             {r.valid && (
-                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(r.output, r.input)} className="h-6 shrink-0" aria-label={`${tt("copy")} ${r.input}`}>
+                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(r.output, r.input)} className="size-8 shrink-0" aria-label={`${tt("copy")} ${r.input}`}>
                                 <Copy className="size-3" />
                               </Button>
                             )}
@@ -369,33 +398,13 @@ export function HomeContent() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="now">
-                <div className="space-y-4">
-                  <div className="text-center mb-4">
-                    <p className="text-sm text-muted-foreground mb-1">{tt("unixSeconds")}</p>
-                    <p className="text-3xl font-mono font-bold">{nowTs.seconds}</p>
-                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.seconds, tt("unixSeconds"))} className="mt-1 h-7" aria-label={`${tt("copy")} ${tt("unixSeconds")}`}>
-                      <Copy className="size-3 mr-1" />
-                      {tt("copy")}
-                    </Button>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground mb-1">{tt("unixMilliseconds")}</p>
-                    <p className="text-3xl font-mono font-bold">{nowTs.milliseconds}</p>
-                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.milliseconds, tt("unixMilliseconds"))} className="mt-1 h-7" aria-label={`${tt("copy")} ${tt("unixMilliseconds")}`}>
-                      <Copy className="size-3 mr-1" />
-                      {tt("copy")}
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
             </Tabs>
           </CardContent>
         </Card>
       </section>
 
       <section className="max-w-5xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold text-center mb-8">{t("featuresHeading")}</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">{t("featuresHeading")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map(({ icon: Icon, title, desc }) => (
             <Card key={title} className="hover:shadow-md transition-shadow">
@@ -409,7 +418,7 @@ export function HomeContent() {
       </section>
 
       <section className="max-w-5xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold text-center mb-8">{t("howItWorks")}</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">{t("howItWorks")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {steps.map((step) => (
             <div key={step.num} className="text-center">
@@ -424,7 +433,7 @@ export function HomeContent() {
       <section className="max-w-4xl mx-auto px-4 pb-16">
         <Card className="bg-muted/50">
           <CardContent className="p-6 sm:p-8">
-            <h2 className="text-2xl font-bold mb-4">{t("whyTitle")}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t("whyTitle")}</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">{t("whyP1")}</p>
             <p className="text-muted-foreground leading-relaxed">{t("whyP2")}</p>
           </CardContent>
