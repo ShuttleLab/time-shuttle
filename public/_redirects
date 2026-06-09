@@ -1,0 +1,4 @@
+# Default-locale pages live at the web root (postbuild promotes out/en -> out).
+# Anyone hitting the conventional /en path gets redirected home.
+/en / 301
+/en/* /:splat 301
