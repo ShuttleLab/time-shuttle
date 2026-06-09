@@ -13,6 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: locale === "en" ? "/privacy" : `/${locale}/privacy`,
       languages: { en: "/privacy", zh: "/zh/privacy", "x-default": "/privacy" },
     },
+    openGraph: {
+      title: t("title"),
+      description: "Privacy Policy for Time Shuttle",
+      siteName: "Time Shuttle",
+      type: "website",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: locale === "zh" ? ["en_US"] : ["zh_CN"],
+    },
+    twitter: { card: "summary_large_image", title: t("title"), description: "Privacy Policy for Time Shuttle" },
   };
 }
 

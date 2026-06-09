@@ -14,13 +14,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
       title: "时区转换器（在线）– 免费时区转换工具",
       description: "在浏览器中即时转换不同时区的时间。支持全球所有 IANA 时区，完全免费。",
-      alternates: { canonical: `/${locale}/tools/timezone-converter`, languages: { en: "/tools/timezone-converter", "x-default": "/tools/timezone-converter" } },
+      alternates: { canonical: `/${locale}/tools/timezone-converter`, languages: { en: "/tools/timezone-converter", zh: `/${locale}/tools/timezone-converter`, "x-default": "/tools/timezone-converter" } },
+      openGraph: { title: "时区转换器（在线）– 免费时区转换工具", description: "在浏览器中即时转换不同时区的时间。支持全球所有 IANA 时区，完全免费。", siteName: "Time Shuttle", type: "website", locale: "zh_CN", alternateLocale: ["en_US"] },
+      twitter: { card: "summary_large_image", title: "时区转换器（在线）– 免费时区转换工具", description: "在浏览器中即时转换不同时区的时间。支持全球所有 IANA 时区，完全免费。" },
     };
   }
   return {
     title: "Timezone Converter Online – Free Time Zone Conversion Tool",
     description: "Convert time between any timezones instantly in your browser. Free online timezone converter using the full IANA timezone database.",
-    alternates: { canonical: locale === "en" ? "/tools/timezone-converter" : `/${locale}/tools/timezone-converter`, languages: { en: "/tools/timezone-converter", "x-default": "/tools/timezone-converter" } },
+    alternates: { canonical: "/tools/timezone-converter", languages: { en: "/tools/timezone-converter", zh: "/zh/tools/timezone-converter", "x-default": "/tools/timezone-converter" } },
+    openGraph: { title: "Timezone Converter Online – Free Time Zone Conversion Tool", description: "Convert time between any timezones instantly in your browser.", siteName: "Time Shuttle", type: "website", locale: "en_US", alternateLocale: ["zh_CN"] },
+    twitter: { card: "summary_large_image", title: "Timezone Converter Online – Free Time Zone Conversion Tool", description: "Convert time between any timezones instantly in your browser." },
   };
 }
 

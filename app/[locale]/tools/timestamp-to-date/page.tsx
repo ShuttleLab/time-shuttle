@@ -14,13 +14,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
       title: "时间戳转日期（在线）– 免费时间戳转换器",
       description: "输入 Unix 时间戳，即时查看对应的日期和时间。支持秒和毫秒格式，完全私密。",
-      alternates: { canonical: `/${locale}/tools/timestamp-to-date`, languages: { en: "/tools/timestamp-to-date", "x-default": "/tools/timestamp-to-date" } },
+      alternates: { canonical: `/${locale}/tools/timestamp-to-date`, languages: { en: "/tools/timestamp-to-date", zh: `/${locale}/tools/timestamp-to-date`, "x-default": "/tools/timestamp-to-date" } },
+      openGraph: { title: "时间戳转日期（在线）– 免费时间戳转换器", description: "输入 Unix 时间戳，即时查看对应的日期和时间。支持秒和毫秒格式，完全私密。", siteName: "Time Shuttle", type: "website", locale: "zh_CN", alternateLocale: ["en_US"] },
+      twitter: { card: "summary_large_image", title: "时间戳转日期（在线）– 免费时间戳转换器", description: "输入 Unix 时间戳，即时查看对应的日期和时间。支持秒和毫秒格式，完全私密。" },
     };
   }
   return {
     title: "Timestamp to Date Online – Free Converter Tool",
     description: "Convert any Unix timestamp to a human-readable date instantly. Free online timestamp-to-date converter with multi-format output and timezone support.",
-    alternates: { canonical: locale === "en" ? "/tools/timestamp-to-date" : `/${locale}/tools/timestamp-to-date`, languages: { en: "/tools/timestamp-to-date", "x-default": "/tools/timestamp-to-date" } },
+    alternates: { canonical: "/tools/timestamp-to-date", languages: { en: "/tools/timestamp-to-date", zh: "/zh/tools/timestamp-to-date", "x-default": "/tools/timestamp-to-date" } },
+    openGraph: { title: "Timestamp to Date Online – Free Converter Tool", description: "Convert any Unix timestamp to a human-readable date instantly. Free online timestamp-to-date converter.", siteName: "Time Shuttle", type: "website", locale: "en_US", alternateLocale: ["zh_CN"] },
+    twitter: { card: "summary_large_image", title: "Timestamp to Date Online – Free Converter Tool", description: "Convert any Unix timestamp to a human-readable date instantly." },
   };
 }
 

@@ -32,7 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${path}/`,
     lastModified,
     changeFrequency: "monthly" as const,
-    priority: 0.7,
+    priority: 0.9,
+    alternates: { languages: { en: `${baseUrl}${path}/`, zh: `${baseUrl}/zh${path}/`, "x-default": `${baseUrl}${path}/` } },
   }));
 
   return [...bilingual, ...tools];

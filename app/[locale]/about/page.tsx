@@ -17,6 +17,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: locale === "en" ? "/about" : `/${locale}/about`,
       languages: { en: "/about", zh: "/zh/about", "x-default": "/about" },
     },
+    openGraph: {
+      title: t("heroTitle"),
+      description: t("heroSubtitle"),
+      siteName: "Time Shuttle",
+      type: "website",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: locale === "zh" ? ["en_US"] : ["zh_CN"],
+    },
+    twitter: { card: "summary_large_image", title: t("heroTitle"), description: t("heroSubtitle") },
   };
 }
 

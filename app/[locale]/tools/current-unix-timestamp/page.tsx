@@ -14,13 +14,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
       title: "当前 Unix 时间戳（在线）– 实时显示",
       description: "实时显示当前的 Unix 时间戳（秒和毫秒），每秒自动刷新。支持一键复制。",
-      alternates: { canonical: `/${locale}/tools/current-unix-timestamp`, languages: { en: "/tools/current-unix-timestamp", "x-default": "/tools/current-unix-timestamp" } },
+      alternates: { canonical: `/${locale}/tools/current-unix-timestamp`, languages: { en: "/tools/current-unix-timestamp", zh: `/${locale}/tools/current-unix-timestamp`, "x-default": "/tools/current-unix-timestamp" } },
+      openGraph: { title: "当前 Unix 时间戳（在线）– 实时显示", description: "实时显示当前的 Unix 时间戳（秒和毫秒），每秒自动刷新。支持一键复制。", siteName: "Time Shuttle", type: "website", locale: "zh_CN", alternateLocale: ["en_US"] },
+      twitter: { card: "summary_large_image", title: "当前 Unix 时间戳（在线）– 实时显示", description: "实时显示当前的 Unix 时间戳（秒和毫秒），每秒自动刷新。支持一键复制。" },
     };
   }
   return {
     title: "Current Unix Timestamp – Live Epoch Time Display",
     description: "See the current Unix timestamp updating live every second. Displayed in both seconds and milliseconds with one-click copy.",
-    alternates: { canonical: locale === "en" ? "/tools/current-unix-timestamp" : `/${locale}/tools/current-unix-timestamp`, languages: { en: "/tools/current-unix-timestamp", "x-default": "/tools/current-unix-timestamp" } },
+    alternates: { canonical: "/tools/current-unix-timestamp", languages: { en: "/tools/current-unix-timestamp", zh: "/zh/tools/current-unix-timestamp", "x-default": "/tools/current-unix-timestamp" } },
+    openGraph: { title: "Current Unix Timestamp – Live Epoch Time Display", description: "See the current Unix timestamp updating live every second.", siteName: "Time Shuttle", type: "website", locale: "en_US", alternateLocale: ["zh_CN"] },
+    twitter: { card: "summary_large_image", title: "Current Unix Timestamp – Live Epoch Time Display", description: "See the current Unix timestamp updating live every second." },
   };
 }
 

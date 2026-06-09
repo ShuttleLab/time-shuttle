@@ -8,16 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, Clock, Copy, ArrowRightLeft, RefreshCw, Globe, Zap, FileText, UserCheck, DollarSign } from "lucide-react";
+import { Shield, Clock, Copy, ArrowRightLeft, RefreshCw, Globe, Zap, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import {
   parseTimestamp,
   parseDateInput,
-  dateToUnixSeconds,
-  dateToUnixMilliseconds,
   formatAllFormats,
   formatInTimezone,
-  formatRelativeTime,
   getTimezoneList,
   batchConvertTimestamps,
   type TimeFormat,
@@ -44,6 +41,7 @@ export function HomeContent() {
   useEffect(() => {
     if (typeof Intl !== "undefined") {
       const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- initialize from browser API after mount
       setSourceTz(localTz);
       setTargetTz("UTC");
     }
@@ -58,6 +56,7 @@ export function HomeContent() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial tick + interval for live timestamp
     updateNow();
     const interval = setInterval(updateNow, 1000);
     return () => clearInterval(interval);
@@ -89,6 +88,7 @@ export function HomeContent() {
   }, [input, mode, locale, tt]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- auto-convert on input/mode change
     handleConvert();
   }, [handleConvert]);
 
@@ -111,6 +111,7 @@ export function HomeContent() {
   }, [input, mode, sourceTz, targetTz, locale]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- auto-convert timezone on input change
     handleTimezoneConvert();
   }, [handleTimezoneConvert]);
 
@@ -218,7 +219,7 @@ export function HomeContent() {
                             `${tt("relativeTime")}: ${result.relativeTime}`,
                           ].join("\n") : "";
                           copyToClipboard(text, tt("allFormats"));
-                        }} className="h-7 text-xs">
+                        }} className="h-7 text-xs" aria-label={tt("copyResult")}>
                           <Copy className="size-3 mr-1" />
                           {tt("copyResult")}
                         </Button>
@@ -239,7 +240,7 @@ export function HomeContent() {
                             <span className="font-medium min-w-32 shrink-0 text-muted-foreground">{item.label}</span>
                             <span className="font-mono flex-1 break-all">{item.value}</span>
                             {item.copy && (
-                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(item.value, item.label)} className="h-6 shrink-0">
+                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(item.value, item.label)} className="h-6 shrink-0" aria-label={`${tt("copy")} ${item.label}`}>
                                 <Copy className="size-3" />
                               </Button>
                             )}
@@ -308,7 +309,7 @@ export function HomeContent() {
                       <div className="flex items-center gap-2 p-3 rounded-md bg-muted/50">
                         <Globe className="size-4 text-primary shrink-0" />
                         <span className="font-mono flex-1">{tzResult}</span>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzResult, tt("targetTimezone"))} className="h-6 shrink-0">
+                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzResult, tt("targetTimezone"))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("targetTimezone")}`}>
                           <Copy className="size-3" />
                         </Button>
                       </div>
@@ -344,7 +345,7 @@ export function HomeContent() {
                             <ArrowRightLeft className="size-3 text-muted-foreground shrink-0" />
                             <span className="flex-1 break-all">{r.output}</span>
                             {r.output !== "Invalid timestamp" && (
-                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(r.output, r.input)} className="h-6 shrink-0">
+                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(r.output, r.input)} className="h-6 shrink-0" aria-label={`${tt("copy")} ${r.input}`}>
                                 <Copy className="size-3" />
                               </Button>
                             )}
@@ -361,7 +362,7 @@ export function HomeContent() {
                   <div className="text-center mb-4">
                     <p className="text-sm text-muted-foreground mb-1">{tt("unixSeconds")}</p>
                     <p className="text-3xl font-mono font-bold">{nowTs.seconds}</p>
-                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.seconds, tt("unixSeconds"))} className="mt-1 h-7">
+                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.seconds, tt("unixSeconds"))} className="mt-1 h-7" aria-label={`${tt("copy")} ${tt("unixSeconds")}`}>
                       <Copy className="size-3 mr-1" />
                       {tt("copy")}
                     </Button>
@@ -369,7 +370,7 @@ export function HomeContent() {
                   <div className="text-center">
                     <p className="text-sm text-muted-foreground mb-1">{tt("unixMilliseconds")}</p>
                     <p className="text-3xl font-mono font-bold">{nowTs.milliseconds}</p>
-                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.milliseconds, tt("unixMilliseconds"))} className="mt-1 h-7">
+                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nowTs.milliseconds, tt("unixMilliseconds"))} className="mt-1 h-7" aria-label={`${tt("copy")} ${tt("unixMilliseconds")}`}>
                       <Copy className="size-3 mr-1" />
                       {tt("copy")}
                     </Button>

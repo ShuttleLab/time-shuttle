@@ -94,7 +94,9 @@
     "seconds": "秒",
     "milliseconds": "毫秒",
     "autoDetected": "自动检测",
-    "localTimezone": "本地"
+    "localTimezone": "本地",
+    "copy": "复制",
+    "copied": "已复制！"
   },
   "about": {
     "heroTitle": "关于 Time Shuttle",
@@ -148,7 +150,7 @@
     "section2": "可接受使用",
     "section2Content": "您可以将 Time Shuttle 用于任何合法目的。您同意不以任何可能损害、禁用或削弱服务的方式使用该工具。",
     "section3": "知识产权",
-    "section33Content": "Time Shuttle 及其原创内容由 ShuttleLab 所有，并在 AGPL-3.0 许可下授权。您可以根据许可条款使用、修改和分发源代码。",
+    "section3Content": "Time Shuttle 及其原创内容由 ShuttleLab 所有，并在 AGPL-3.0 许可下授权。您可以根据许可条款使用、修改和分发源代码。",
     "section4": "免责声明",
     "section4Content": "Time Shuttle 按「现状」提供，不附带任何形式的保证。我们不保证该工具无错误、准确或始终可用。",
     "section5": "责任限制",
@@ -163,6 +165,8 @@
     "section9Content": "这些条款受适用的国际法律管辖。任何争议应通过协商解决。",
     "section10": "联系方式",
     "section10Content": "如有条款相关问题，请联系 support@shuttlelab.org。",
+    "refundTitle": "退款政策",
+    "refundContent": "Time Shuttle 完全免费使用。没有付款、订阅或付费功能。由于不发生任何金融交易，因此不适用退款政策。如有疑问，请联系 support@shuttlelab.org。",
     "footer": "这些条款最后更新于 2026-06-09。"
   },
   "toolPages": {

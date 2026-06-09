@@ -76,7 +76,8 @@ export function AboutFaq() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold mb-6">{comparison.heading}</h2>
+        <h2 className="text-2xl font-bold mb-2">{comparison.heading}</h2>
+        <p className="text-xs text-muted-foreground mb-6">{comparison.asOf}</p>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>

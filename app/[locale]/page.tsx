@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t("title"),
     description: t("subtitle"),
     alternates: {
-      canonical: locale === "en" ? "https://time.shuttlelab.org/" : `https://time.shuttlelab.org/${locale}`,
-      languages: { en: "https://time.shuttlelab.org/", zh: "https://time.shuttlelab.org/zh", "x-default": "https://time.shuttlelab.org/" },
+      canonical: locale === "en" ? "/" : `/${locale}`,
+      languages: { en: "/", zh: "/zh", "x-default": "/" },
     },
   };
 }

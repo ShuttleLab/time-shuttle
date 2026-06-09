@@ -16,17 +16,35 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: "在浏览器中即时将 Unix 时间戳转换为人类可读日期，或反向转换。支持秒和毫秒，完全免费。",
       alternates: {
         canonical: `/${locale}/tools/unix-timestamp-converter`,
-        languages: { en: "/tools/unix-timestamp-converter", "x-default": "/tools/unix-timestamp-converter" },
+        languages: { en: "/tools/unix-timestamp-converter", zh: `/${locale}/tools/unix-timestamp-converter`, "x-default": "/tools/unix-timestamp-converter" },
       },
+      openGraph: {
+        title: "Unix Timestamp Converter（在线）– 免费时间戳转换工具",
+        description: "在浏览器中即时将 Unix 时间戳转换为人类可读日期，或反向转换。支持秒和毫秒，完全免费。",
+        siteName: "Time Shuttle",
+        type: "website",
+        locale: "zh_CN",
+        alternateLocale: ["en_US"],
+      },
+      twitter: { card: "summary_large_image", title: "Unix Timestamp Converter（在线）– 免费时间戳转换工具", description: "在浏览器中即时将 Unix 时间戳转换为人类可读日期，或反向转换。支持秒和毫秒，完全免费。" },
     };
   }
   return {
     title: "Unix Timestamp Converter Online – Free Epoch Converter Tool",
     description: "Convert Unix timestamps to human-readable dates and back instantly in your browser. Free online epoch converter with auto-detection of seconds and milliseconds.",
     alternates: {
-      canonical: locale === "en" ? "/tools/unix-timestamp-converter" : `/${locale}/tools/unix-timestamp-converter`,
-      languages: { en: "/tools/unix-timestamp-converter", "x-default": "/tools/unix-timestamp-converter" },
+      canonical: "/tools/unix-timestamp-converter",
+      languages: { en: "/tools/unix-timestamp-converter", zh: "/zh/tools/unix-timestamp-converter", "x-default": "/tools/unix-timestamp-converter" },
     },
+    openGraph: {
+      title: "Unix Timestamp Converter Online – Free Epoch Converter Tool",
+      description: "Convert Unix timestamps to human-readable dates and back instantly in your browser. Free online epoch converter with auto-detection of seconds and milliseconds.",
+      siteName: "Time Shuttle",
+      type: "website",
+      locale: "en_US",
+      alternateLocale: ["zh_CN"],
+    },
+    twitter: { card: "summary_large_image", title: "Unix Timestamp Converter Online – Free Epoch Converter Tool", description: "Convert Unix timestamps to human-readable dates and back instantly in your browser." },
   };
 }
 
@@ -74,6 +92,7 @@ export default async function UnixTimestampConverterPage({ params }: Props) {
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
+    inLanguage: "en-US",
     name: "How to Convert a Unix Timestamp Online",
     description: "Convert any Unix timestamp to a human-readable date using a free online tool.",
     step: [
@@ -87,6 +106,7 @@ export default async function UnixTimestampConverterPage({ params }: Props) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    inLanguage: "en-US",
     mainEntity: [
       { "@type": "Question", name: "What is a Unix timestamp?", acceptedAnswer: { "@type": "Answer", text: "A Unix timestamp is the number of seconds that have elapsed since 1970-01-01 00:00:00 UTC, not counting leap seconds. It is the standard way computers represent time, used in databases, APIs, log files, and operating systems worldwide." } },
       { "@type": "Question", name: "What is the difference between 10-digit and 13-digit timestamps?", acceptedAnswer: { "@type": "Answer", text: "A 10-digit number is a Unix timestamp in seconds. A 13-digit number is a Unix timestamp in milliseconds. For example, 1700000000 (seconds) and 1700000000000 (milliseconds) represent the same moment: 2023-11-14T22:13:20Z. Time Shuttle auto-detects both formats." } },

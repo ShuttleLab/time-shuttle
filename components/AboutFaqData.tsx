@@ -88,6 +88,7 @@ export const FAQS: FaqItem[] = [
 export const COMPARISON = {
   zh: {
     heading: "Time Shuttle 与同类工具对比",
+    asOf: "数据截至 2026 年 6 月",
     columns: ["功能", "Time Shuttle", "epochconverter.com", "unixtimestamp.com"],
     rows: [
       ["100% 本地处理", "✓", "✗", "✗"],
@@ -102,6 +103,7 @@ export const COMPARISON = {
   },
   en: {
     heading: "Time Shuttle vs Similar Tools",
+    asOf: "As of June 2026",
     columns: ["Feature", "Time Shuttle", "epochconverter.com", "unixtimestamp.com"],
     rows: [
       ["100% Local Processing", "✓", "✗", "✗"],

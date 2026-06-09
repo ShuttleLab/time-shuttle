@@ -94,7 +94,9 @@
     "seconds": "seconds",
     "milliseconds": "milliseconds",
     "autoDetected": "Auto-detected",
-    "localTimezone": "Local"
+    "localTimezone": "Local",
+    "copy": "Copy",
+    "copied": "Copied!"
   },
   "about": {
     "heroTitle": "About Time Shuttle",
@@ -163,26 +165,28 @@
     "section9Content": "These terms are governed by applicable international laws. Any disputes shall be resolved through negotiation.",
     "section10": "Contact",
     "section10Content": "For questions about these terms, contact support@shuttlelab.org.",
+    "refundTitle": "Refund Policy",
+    "refundContent": "Time Shuttle is completely free to use. There are no payments, subscriptions, or paid features. Since no financial transactions occur, there is no refund policy applicable. If you have questions, contact support@shuttlelab.org.",
     "footer": "These terms were last updated on 2026-06-09."
   },
   "toolPages": {
     "openTool": "Open Tool",
     "fullGuide": "View full English guide",
     "unixTimestampConverter": {
-      "title": "Unix Timestamp Converter（在线）– 免费时间戳转换工具",
-      "subtitle": "在浏览器中即时将 Unix 时间戳转换为人类可读日期，或反向转换。支持秒和毫秒，完全免费。"
+      "title": "Unix Timestamp Converter Online – Free Epoch Tool",
+      "subtitle": "Convert Unix timestamps to human-readable dates and back instantly in your browser. Supports seconds and milliseconds, completely free."
     },
     "timestampToDate": {
-      "title": "时间戳转日期（在线）– 免费时间戳转换器",
-      "subtitle": "输入 Unix 时间戳，即时查看对应的日期和时间。支持秒和毫秒格式，完全私密。"
+      "title": "Timestamp to Date Converter Online – Free Tool",
+      "subtitle": "Enter a Unix timestamp to instantly see the corresponding date and time. Supports seconds and milliseconds formats, completely private."
     },
     "timezoneConverter": {
-      "title": "时区转换器（在线）– 免费时区转换工具",
-      "subtitle": "在浏览器中即时转换不同时区的时间。支持全球所有 IANA 时区，完全免费。"
+      "title": "Timezone Converter Online – Free Time Conversion Tool",
+      "subtitle": "Convert times between different timezones instantly in your browser. Supports all IANA timezones worldwide, completely free."
     },
     "currentUnixTimestamp": {
-      "title": "当前 Unix 时间戳（在线）– 实时显示",
-      "subtitle": "实时显示当前的 Unix 时间戳（秒和毫秒），每秒自动刷新。支持一键复制。"
+      "title": "Current Unix Timestamp – Live Display",
+      "subtitle": "See the current Unix timestamp updating live every second in both seconds and milliseconds. One-click copy supported."
     }
   }
 }

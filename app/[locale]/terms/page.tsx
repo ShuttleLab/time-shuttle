@@ -13,6 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: locale === "en" ? "/terms" : `/${locale}/terms`,
       languages: { en: "/terms", zh: "/zh/terms", "x-default": "/terms" },
     },
+    openGraph: {
+      title: t("title"),
+      description: "Terms of Service for Time Shuttle",
+      siteName: "Time Shuttle",
+      type: "website",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: locale === "zh" ? ["en_US"] : ["zh_CN"],
+    },
+    twitter: { card: "summary_large_image", title: t("title"), description: "Terms of Service for Time Shuttle" },
   };
 }
 
@@ -46,6 +55,10 @@ export default async function TermsPage({ params }: Props) {
             <p className="text-muted-foreground leading-relaxed">{t(content)}</p>
           </section>
         ))}
+        <section id="refund">
+          <h2 className="text-xl font-semibold mb-3">{t("refundTitle")}</h2>
+          <p className="text-muted-foreground leading-relaxed">{t("refundContent")}</p>
+        </section>
       </div>
       <div className="mt-12 pt-8 border-t text-sm text-muted-foreground">{t("footer")}</div>
     </div>
