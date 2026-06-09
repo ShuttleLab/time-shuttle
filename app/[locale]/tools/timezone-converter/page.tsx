@@ -40,7 +40,7 @@ export default async function TimezoneConverterPage({ params }: Props) {
         <p className="text-lg text-muted-foreground mb-10">{t("timezoneConverter.subtitle")}</p>
         <Card className="border-primary/30 bg-primary/5">
           <CardContent className="flex flex-col items-center gap-4 py-10 text-center">
-            <p className="text-base font-medium">在首页打开时区转换工具，立即开始转换。</p>
+            <p className="text-base font-medium">{t("timezoneConverter.openHint")}</p>
             <Link href="/zh/#tool" className="inline-flex items-center justify-center h-10 gap-1.5 rounded-lg bg-primary text-primary-foreground px-5 text-sm font-medium hover:bg-primary/80 transition-colors">
               <ArrowRight className="size-4 mr-1.5" />{t("openTool")}
             </Link>

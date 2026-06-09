@@ -71,6 +71,11 @@
     "input": "Input",
     "output": "Output",
     "now": "Now",
+    "tabFormats": "Formats",
+    "tabTimezone": "Timezone",
+    "tabBatch": "Batch",
+    "tabNow": "Now",
+    "tzInputPlaceholder": "Unix timestamp, or a date like 2024-01-15 14:30",
     "copyResult": "Copy Result",
     "batchConvert": "Batch Convert",
     "selectTimezone": "Select timezone",
@@ -174,19 +179,23 @@
     "fullGuide": "View full English guide",
     "unixTimestampConverter": {
       "title": "Unix Timestamp Converter Online – Free Epoch Tool",
-      "subtitle": "Convert Unix timestamps to human-readable dates and back instantly in your browser. Supports seconds and milliseconds, completely free."
+      "subtitle": "Convert Unix timestamps to human-readable dates and back instantly in your browser. Supports seconds and milliseconds, completely free.",
+      "openHint": "Open the timestamp converter on the home page and start converting instantly."
     },
     "timestampToDate": {
       "title": "Timestamp to Date Converter Online – Free Tool",
-      "subtitle": "Enter a Unix timestamp to instantly see the corresponding date and time. Supports seconds and milliseconds formats, completely private."
+      "subtitle": "Enter a Unix timestamp to instantly see the corresponding date and time. Supports seconds and milliseconds formats, completely private.",
+      "openHint": "Open the timestamp converter on the home page and start converting instantly."
     },
     "timezoneConverter": {
       "title": "Timezone Converter Online – Free Time Conversion Tool",
-      "subtitle": "Convert times between different timezones instantly in your browser. Supports all IANA timezones worldwide, completely free."
+      "subtitle": "Convert times between different timezones instantly in your browser. Supports all IANA timezones worldwide, completely free.",
+      "openHint": "Open the timezone converter on the home page and start converting instantly."
     },
     "currentUnixTimestamp": {
       "title": "Current Unix Timestamp – Live Display",
-      "subtitle": "See the current Unix timestamp updating live every second in both seconds and milliseconds. One-click copy supported."
+      "subtitle": "See the current Unix timestamp updating live every second in both seconds and milliseconds. One-click copy supported.",
+      "openHint": "View the live Unix timestamp on the home page and copy it instantly."
     }
   }
 }

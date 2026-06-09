@@ -119,21 +119,60 @@ export function getTimezoneList(): string[] {
   }
 }
 
-export function convertTimezone(date: Date, fromTz: string, toTz: string): string {
+/**
+ * Offset (in ms) of an IANA timezone at a given absolute instant.
+ * offset = (wall-clock as-if-UTC) - (true UTC instant). E.g. America/New_York in winter ≈ -5h.
+ */
+function tzOffsetMs(tz: string, date: Date): number {
   try {
-    return new Intl.DateTimeFormat("en-US", {
+    const dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hour12: false,
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      hour12: false,
-      timeZone: toTz,
-    }).format(date);
+    });
+    const parts = dtf.formatToParts(date);
+    const m: Record<string, number> = {};
+    for (const p of parts) if (p.type !== "literal") m[p.type] = Number(p.value);
+    let hour = m.hour;
+    if (hour === 24) hour = 0; // some engines emit 24 for midnight
+    const asUTC = Date.UTC(m.year, m.month - 1, m.day, hour, m.minute, m.second);
+    return asUTC - date.getTime();
   } catch {
-    return date.toISOString();
+    return 0;
   }
+}
+
+/**
+ * Interpret a wall-clock date string as being in `tz`, returning the absolute instant.
+ * e.g. wallClockToInstant("2024-01-15 12:00", "America/New_York") → 2024-01-15T17:00:00Z.
+ * If the string already carries an explicit offset (Z or ±hh:mm) it is treated as absolute.
+ */
+export function wallClockToInstant(input: string, tz: string): Date | null {
+  const trimmed = input.trim();
+  if (!trimmed) return null;
+  const local = new Date(trimmed);
+  if (isNaN(local.getTime())) return null;
+
+  // Explicit offset/Z present → already an absolute instant, no reinterpretation.
+  if (/(z|[+-]\d{2}:?\d{2})$/i.test(trimmed)) return local;
+
+  // Recover the wall-clock components the user typed (local getters preserve them when
+  // the string has no offset), then reinterpret those components as being in `tz`.
+  const utcGuess = Date.UTC(
+    local.getFullYear(),
+    local.getMonth(),
+    local.getDate(),
+    local.getHours(),
+    local.getMinutes(),
+    local.getSeconds()
+  );
+  const offset = tzOffsetMs(tz, new Date(utcGuess));
+  return new Date(utcGuess - offset);
 }
 
 export function formatInTimezone(date: Date, timezone: string, locale: string = "en"): string {
@@ -154,14 +193,14 @@ export function formatInTimezone(date: Date, timezone: string, locale: string = 
   }
 }
 
-export function batchConvertTimestamps(input: string): { input: string; output: string }[] {
+export function batchConvertTimestamps(input: string): { input: string; output: string; valid: boolean }[] {
   const lines = input.split("\n").filter((l) => l.trim());
   return lines.map((line) => {
     const trimmed = line.trim();
     const date = parseTimestamp(trimmed);
     if (!date) {
-      return { input: trimmed, output: "Invalid timestamp" };
+      return { input: trimmed, output: "", valid: false };
     }
-    return { input: trimmed, output: date.toISOString() };
+    return { input: trimmed, output: date.toISOString(), valid: true };
   });
 }

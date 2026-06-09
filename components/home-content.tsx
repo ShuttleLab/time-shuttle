@@ -15,6 +15,7 @@ import {
   parseDateInput,
   formatAllFormats,
   formatInTimezone,
+  wallClockToInstant,
   getTimezoneList,
   batchConvertTimestamps,
   type TimeFormat,
@@ -32,9 +33,10 @@ export function HomeContent() {
   const [nowTs, setNowTs] = useState<{ seconds: string; milliseconds: string }>({ seconds: "", milliseconds: "" });
   const [sourceTz, setSourceTz] = useState<string>("");
   const [targetTz, setTargetTz] = useState<string>("");
-  const [tzResult, setTzResult] = useState<string>("");
+  const [tzSourceResult, setTzSourceResult] = useState<string>("");
+  const [tzTargetResult, setTzTargetResult] = useState<string>("");
   const [batchInput, setBatchInput] = useState("");
-  const [batchResults, setBatchResults] = useState<{ input: string; output: string }[]>([]);
+  const [batchResults, setBatchResults] = useState<{ input: string; output: string; valid: boolean }[]>([]);
   const [activeTab, setActiveTab] = useState("converter");
   const timezones = getTimezoneList();
 
@@ -94,21 +96,22 @@ export function HomeContent() {
 
   const handleTimezoneConvert = useCallback(() => {
     if (!input.trim() || !sourceTz || !targetTz) {
-      setTzResult("");
+      setTzSourceResult("");
+      setTzTargetResult("");
       return;
     }
-    let date: Date | null = null;
-    if (mode === "timestamp-to-date") {
-      date = parseTimestamp(input);
-    } else {
-      date = parseDateInput(input);
-    }
-    if (!date) {
-      setTzResult("");
+    // Pure-digit input is an absolute Unix timestamp (timezone-independent).
+    // Anything else is a wall-clock time, interpreted as being in the source timezone.
+    const isTimestamp = /^\d+$/.test(input.trim());
+    const instant = isTimestamp ? parseTimestamp(input) : wallClockToInstant(input, sourceTz);
+    if (!instant) {
+      setTzSourceResult("");
+      setTzTargetResult("");
       return;
     }
-    setTzResult(formatInTimezone(date, targetTz, locale));
-  }, [input, mode, sourceTz, targetTz, locale]);
+    setTzSourceResult(formatInTimezone(instant, sourceTz, locale));
+    setTzTargetResult(formatInTimezone(instant, targetTz, locale));
+  }, [input, sourceTz, targetTz, locale]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- auto-convert timezone on input change
@@ -172,11 +175,11 @@ export function HomeContent() {
         <Card className="shadow-lg">
           <CardContent className="p-4 sm:p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="mb-4">
-                <TabsTrigger value="converter">{tt("allFormats")}</TabsTrigger>
-                <TabsTrigger value="timezone">{tt("targetTimezone")}</TabsTrigger>
-                <TabsTrigger value="batch">{tt("batchConvert")}</TabsTrigger>
-                <TabsTrigger value="now">{tt("now")}</TabsTrigger>
+              <TabsList className="mb-4 grid w-full grid-cols-4">
+                <TabsTrigger value="converter">{tt("tabFormats")}</TabsTrigger>
+                <TabsTrigger value="timezone">{tt("tabTimezone")}</TabsTrigger>
+                <TabsTrigger value="batch">{tt("tabBatch")}</TabsTrigger>
+                <TabsTrigger value="now">{tt("tabNow")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="converter">
@@ -298,18 +301,27 @@ export function HomeContent() {
                     <Textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      placeholder={mode === "timestamp-to-date" ? tt("enterTimestamp") : tt("enterDate")}
+                      placeholder={tt("tzInputPlaceholder")}
                       className="field-sizing-content min-h-28 max-h-[50vh] resize-y font-mono text-base"
                     />
                   </div>
 
-                  {tzResult && (
-                    <div>
-                      <label className="text-sm font-medium mb-1.5 block">{tt("output")}</label>
+                  {tzTargetResult && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium block">{tt("output")}</label>
                       <div className="flex items-center gap-2 p-3 rounded-md bg-muted/50">
+                        <Globe className="size-4 text-muted-foreground shrink-0" />
+                        <span className="text-xs text-muted-foreground min-w-28 shrink-0 break-all">{formatTimezoneLabel(sourceTz)}</span>
+                        <span className="font-mono flex-1 break-all">{tzSourceResult}</span>
+                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzSourceResult, formatTimezoneLabel(sourceTz))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("sourceTimezone")}`}>
+                          <Copy className="size-3" />
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-2 p-3 rounded-md bg-primary/5 border border-primary/20">
                         <Globe className="size-4 text-primary shrink-0" />
-                        <span className="font-mono flex-1">{tzResult}</span>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzResult, tt("targetTimezone"))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("targetTimezone")}`}>
+                        <span className="text-xs text-muted-foreground min-w-28 shrink-0 break-all">{formatTimezoneLabel(targetTz)}</span>
+                        <span className="font-mono flex-1 break-all">{tzTargetResult}</span>
+                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(tzTargetResult, formatTimezoneLabel(targetTz))} className="h-6 shrink-0" aria-label={`${tt("copy")} ${tt("targetTimezone")}`}>
                           <Copy className="size-3" />
                         </Button>
                       </div>
@@ -343,8 +355,8 @@ export function HomeContent() {
                           <div key={i} className="flex items-center gap-2 p-2 rounded-md bg-muted/50 text-sm font-mono">
                             <span className="text-muted-foreground min-w-28">{r.input}</span>
                             <ArrowRightLeft className="size-3 text-muted-foreground shrink-0" />
-                            <span className="flex-1 break-all">{r.output}</span>
-                            {r.output !== "Invalid timestamp" && (
+                            <span className={`flex-1 break-all ${r.valid ? "" : "text-destructive"}`}>{r.valid ? r.output : tt("invalidTimestamp")}</span>
+                            {r.valid && (
                               <Button variant="ghost" size="sm" onClick={() => copyToClipboard(r.output, r.input)} className="h-6 shrink-0" aria-label={`${tt("copy")} ${r.input}`}>
                                 <Copy className="size-3" />
                               </Button>
