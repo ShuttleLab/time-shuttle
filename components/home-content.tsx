@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -17,7 +18,11 @@ import {
   wallClockToInstant,
   getTimezoneList,
   batchConvertTimestamps,
+  convertTimeUnit,
+  formatUnitValue,
+  TIME_UNITS,
   type TimeFormat,
+  type TimeUnitId,
 } from "@/lib/time";
 
 type Mode = "timestamp-to-date" | "date-to-timestamp";
@@ -36,8 +41,14 @@ export function HomeContent() {
   const [tzTargetResult, setTzTargetResult] = useState<string>("");
   const [batchInput, setBatchInput] = useState("");
   const [batchResults, setBatchResults] = useState<{ input: string; output: string; valid: boolean }[]>([]);
+  const [unitInput, setUnitInput] = useState("1");
+  const [unitFrom, setUnitFrom] = useState<TimeUnitId>("second");
   const [activeTab, setActiveTab] = useState("converter");
   const timezones = getTimezoneList();
+
+  const unitNum = Number(unitInput.trim());
+  const unitValid = unitInput.trim() !== "" && Number.isFinite(unitNum);
+  const unitResults = unitValid ? convertTimeUnit(unitNum, unitFrom) : [];
 
   useEffect(() => {
     if (typeof Intl !== "undefined") {
@@ -199,10 +210,11 @@ export function HomeContent() {
         <Card className="shadow-lg">
           <CardContent className="p-4 sm:p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="mb-5 grid h-12 w-full grid-cols-3">
-                <TabsTrigger value="converter" className="text-sm sm:text-base">{tt("tabFormats")}</TabsTrigger>
-                <TabsTrigger value="timezone" className="text-sm sm:text-base">{tt("tabTimezone")}</TabsTrigger>
-                <TabsTrigger value="batch" className="text-sm sm:text-base">{tt("tabBatch")}</TabsTrigger>
+              <TabsList className="mb-5 grid h-12 w-full grid-cols-4">
+                <TabsTrigger value="converter" className="text-xs sm:text-base">{tt("tabFormats")}</TabsTrigger>
+                <TabsTrigger value="timezone" className="text-xs sm:text-base">{tt("tabTimezone")}</TabsTrigger>
+                <TabsTrigger value="batch" className="text-xs sm:text-base">{tt("tabBatch")}</TabsTrigger>
+                <TabsTrigger value="units" className="text-xs sm:text-base">{tt("tabUnits")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="converter">
@@ -395,6 +407,61 @@ export function HomeContent() {
                       </div>
                     </div>
                   )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="units">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-base font-medium mb-1.5 block">{tt("unitValue")}</label>
+                      <Input
+                        value={unitInput}
+                        onChange={(e) => setUnitInput(e.target.value)}
+                        placeholder={tt("unitInputPlaceholder")}
+                        inputMode="decimal"
+                        className="font-mono text-base"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-base font-medium mb-1.5 block">{tt("unitFrom")}</label>
+                      <Select value={unitFrom} onValueChange={(v) => { if (v) setUnitFrom(v as TimeUnitId); }}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue>{tt(`units.${unitFrom}`)}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {TIME_UNITS.map((u) => (
+                            <SelectItem key={u.id} value={u.id}>
+                              {tt(`units.${u.id}`)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {unitResults.length > 0 && (
+                    <div>
+                      <label className="text-base font-medium mb-1.5 block">{tt("output")}</label>
+                      <div className="grid gap-2">
+                        {unitResults.map((r) => {
+                          const label = tt(`units.${r.id}`);
+                          const value = formatUnitValue(r.value);
+                          return (
+                            <div key={r.id} className={`flex items-center gap-2 p-2.5 rounded-md text-base ${r.id === unitFrom ? "bg-primary/5 border border-primary/20" : "bg-muted/50"}`}>
+                              <span className="font-medium min-w-32 shrink-0 text-muted-foreground text-sm">{label}</span>
+                              <span className="font-mono flex-1 break-all">{value}</span>
+                              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(value, label)} className="size-8 shrink-0" aria-label={`${tt("copy")} ${label}`}>
+                                <Copy className="size-3" />
+                              </Button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <p className="text-xs text-muted-foreground">{tt("unitNote")}</p>
                 </div>
               </TabsContent>
 

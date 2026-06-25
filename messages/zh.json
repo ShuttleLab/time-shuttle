@@ -102,7 +102,29 @@
     "autoDetected": "自动检测",
     "localTimezone": "本地",
     "copy": "复制",
-    "copied": "已复制！"
+    "copied": "已复制！",
+    "tabUnits": "单位",
+    "unitValue": "数值",
+    "unitFrom": "单位",
+    "unitInputPlaceholder": "输入数值（如 1.5 或 2e3）...",
+    "unitNote": "年 = 365.25 天，月 = 1/12 年；其余单位均为精确换算。",
+    "units": {
+      "year": "年",
+      "month": "月",
+      "week": "周",
+      "day": "日",
+      "hour": "时",
+      "minute": "分",
+      "second": "秒",
+      "millisecond": "毫秒",
+      "microsecond": "微秒",
+      "nanosecond": "纳秒",
+      "picosecond": "皮秒",
+      "femtosecond": "飞秒",
+      "attosecond": "阿秒",
+      "zeptosecond": "仄秒",
+      "yoctosecond": "幺秒"
+    }
   },
   "about": {
     "heroTitle": "关于 Time Shuttle",

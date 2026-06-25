@@ -102,7 +102,29 @@
     "autoDetected": "Auto-detected",
     "localTimezone": "Local",
     "copy": "Copy",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "tabUnits": "Units",
+    "unitValue": "Value",
+    "unitFrom": "Unit",
+    "unitInputPlaceholder": "Enter a number (e.g. 1.5 or 2e3)...",
+    "unitNote": "Year = 365.25 days, month = 1/12 year; all smaller units are exact.",
+    "units": {
+      "year": "Year",
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "hour": "Hour",
+      "minute": "Minute",
+      "second": "Second",
+      "millisecond": "Millisecond (ms)",
+      "microsecond": "Microsecond (µs)",
+      "nanosecond": "Nanosecond (ns)",
+      "picosecond": "Picosecond (ps)",
+      "femtosecond": "Femtosecond (fs)",
+      "attosecond": "Attosecond (as)",
+      "zeptosecond": "Zeptosecond (zs)",
+      "yoctosecond": "Yoctosecond (ys)"
+    }
   },
   "about": {
     "heroTitle": "About Time Shuttle",

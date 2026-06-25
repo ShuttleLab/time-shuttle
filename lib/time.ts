@@ -193,6 +193,55 @@ export function formatInTimezone(date: Date, timezone: string, locale: string = 
   }
 }
 
+/**
+ * Time units ordered largest → smallest, each expressed as a multiple of one second.
+ * year/month are calendar approximations (Julian year = 365.25 days, month = year/12);
+ * everything from week down is an exact SI/decimal relationship.
+ */
+export const TIME_UNITS = [
+  { id: "year", seconds: 31557600 }, // 365.25 days
+  { id: "month", seconds: 2629800 }, // year / 12
+  { id: "week", seconds: 604800 },
+  { id: "day", seconds: 86400 },
+  { id: "hour", seconds: 3600 },
+  { id: "minute", seconds: 60 },
+  { id: "second", seconds: 1 },
+  { id: "millisecond", seconds: 1e-3 },
+  { id: "microsecond", seconds: 1e-6 },
+  { id: "nanosecond", seconds: 1e-9 },
+  { id: "picosecond", seconds: 1e-12 },
+  { id: "femtosecond", seconds: 1e-15 },
+  { id: "attosecond", seconds: 1e-18 },
+  { id: "zeptosecond", seconds: 1e-21 },
+  { id: "yoctosecond", seconds: 1e-24 },
+] as const;
+
+export type TimeUnitId = (typeof TIME_UNITS)[number]["id"];
+
+/** Convert `value` (given in `fromId` units) into every unit in TIME_UNITS. */
+export function convertTimeUnit(value: number, fromId: TimeUnitId): { id: TimeUnitId; value: number }[] {
+  const from = TIME_UNITS.find((u) => u.id === fromId);
+  if (!from) return [];
+  const seconds = value * from.seconds;
+  return TIME_UNITS.map((u) => ({ id: u.id, value: seconds / u.seconds }));
+}
+
+/**
+ * Format a numeric unit value for display. Falls back to trimmed scientific notation
+ * for magnitudes that a plain decimal can't show cleanly (very large or very small),
+ * otherwise a grouped decimal with up to 6 fraction digits.
+ */
+export function formatUnitValue(value: number): string {
+  if (!Number.isFinite(value)) return "—";
+  if (value === 0) return "0";
+  const abs = Math.abs(value);
+  if (abs >= 1e15 || abs < 1e-4) {
+    const [mantissa, exp] = value.toExponential(6).split("e");
+    return `${mantissa.replace(/\.?0+$/, "")}e${exp}`;
+  }
+  return value.toLocaleString("en-US", { maximumFractionDigits: 6 });
+}
+
 export function batchConvertTimestamps(input: string): { input: string; output: string; valid: boolean }[] {
   const lines = input.split("\n").filter((l) => l.trim());
   return lines.map((line) => {
