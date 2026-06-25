@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, Clock, Copy, ArrowRightLeft, RefreshCw, Globe, Zap, DollarSign } from "lucide-react";
+import { Shield, Clock, Copy, ArrowRightLeft, RefreshCw, Globe, Zap, DollarSign, Ruler } from "lucide-react";
 import { toast } from "sonner";
 import {
   parseTimestamp,
@@ -155,6 +155,7 @@ export function HomeContent() {
     { icon: Zap, title: t("feature3Title"), desc: t("feature3Desc") },
     { icon: Globe, title: t("feature4Title"), desc: t("feature4Desc") },
     { icon: Clock, title: t("feature5Title"), desc: t("feature5Desc") },
+    { icon: Ruler, title: t("feature7Title"), desc: t("feature7Desc") },
     { icon: DollarSign, title: t("feature6Title"), desc: t("feature6Desc") },
   ];
 

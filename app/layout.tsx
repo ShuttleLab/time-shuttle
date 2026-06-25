@@ -24,7 +24,7 @@ const structuredData = {
   name: "Time Shuttle",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
-  description: "Free online Unix timestamp and date converter. Convert timestamps, compare timezones, and calculate relative time — 100% private, runs in your browser.",
+  description: "Free online Unix timestamp and date converter. Convert timestamps, compare timezones, calculate relative time, and convert between time units (years to yoctoseconds) — 100% private, runs in your browser.",
   url: "https://time.shuttlelab.org",
   offers: [{ "@type": "Offer", name: "Free", price: "0", priceCurrency: "USD" }],
 };

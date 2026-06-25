@@ -53,6 +53,8 @@
     "feature5Desc": "Instantly see '3 hours ago' or 'in 2 days' with Intl.RelativeTimeFormat, localized for English and Chinese.",
     "feature6Title": "Free Forever",
     "feature6Desc": "No limits, no ads, no hidden fees. Full-featured timestamp toolkit at zero cost.",
+    "feature7Title": "Time Unit Conversion",
+    "feature7Desc": "Convert any value between time units — from years, days, and seconds down to milliseconds, microseconds, nanoseconds, and all the way to yoctoseconds.",
     "howItWorks": "How It Works",
     "step1Title": "Enter Timestamp or Date",
     "step1Desc": "Type a Unix timestamp (seconds or milliseconds) or a human-readable date in the input field",
@@ -62,7 +64,7 @@
     "step3Desc": "Copy any result with one click, or use the timezone converter to see the time in a different zone",
     "whyTitle": "The Complete Timestamp Toolkit for Developers",
     "whyP1": "Unix timestamps are the universal language of computing. From database records and API responses to log files and cache headers, timestamps are everywhere. But converting between Unix time and human-readable dates, handling timezone differences, and calculating relative time intervals are tasks developers face daily. Time Shuttle brings all these capabilities together in a single, fast, privacy-focused interface.",
-    "whyP2": "Unlike other online timestamp tools that send your data to remote servers, Time Shuttle performs every conversion entirely in your browser using native JavaScript Date and Intl APIs. Your data — whether it's API timestamps, database records, or log entries — never leaves your device. Support for all IANA timezones, automatic seconds/milliseconds detection, batch conversion, and real-time 'now' display make it the fastest way to handle time-related tasks."
+    "whyP2": "Unlike other online timestamp tools that send your data to remote servers, Time Shuttle performs every conversion entirely in your browser using native JavaScript Date and Intl APIs. Your data — whether it's API timestamps, database records, or log entries — never leaves your device. Support for all IANA timezones, automatic seconds/milliseconds detection, batch conversion, time-unit conversion from years down to yoctoseconds, and real-time 'now' display make it the fastest way to handle time-related tasks."
   },
   "tools": {
     "convert": "Convert",
@@ -130,7 +132,7 @@
     "heroTitle": "About Time Shuttle",
     "heroSubtitle": "A free, privacy-first timestamp and date conversion tool that runs entirely in your browser.",
     "serviceTitle": "What We Offer",
-    "serviceP1": "Time Shuttle is a free online tool for converting Unix timestamps, human-readable dates, and timezones. It supports bidirectional conversion, multi-format output, timezone conversion using the full IANA database, relative time calculation, and batch processing.",
+    "serviceP1": "Time Shuttle is a free online tool for converting Unix timestamps, human-readable dates, and timezones. It supports bidirectional conversion, multi-format output, timezone conversion using the full IANA database, relative time calculation, time-unit conversion (from years down to yoctoseconds), and batch processing.",
     "serviceP2": "Every operation happens in your browser using native JavaScript APIs — Date, Intl.DateTimeFormat, Intl.RelativeTimeFormat. No data is ever sent to a server, making Time Shuttle ideal for developers, security engineers, and anyone working with timestamps.",
     "safe": "Client-Side Only",
     "safeDesc": "All conversions happen in your browser. No server processing, no data uploads.",
@@ -219,6 +221,11 @@
       "title": "Current Unix Timestamp – Live Display",
       "subtitle": "See the current Unix timestamp updating live every second in both seconds and milliseconds. One-click copy supported.",
       "openHint": "View the live Unix timestamp on the home page and copy it instantly."
+    },
+    "timeUnitConverter": {
+      "title": "Time Unit Converter Online – Seconds, Milliseconds & More",
+      "subtitle": "Convert between any time units — years, days, hours, minutes, seconds, milliseconds, microseconds, nanoseconds, all the way to yoctoseconds. Free and private.",
+      "openHint": "Open the unit converter on the home page and convert between time units instantly."
     }
   }
 }

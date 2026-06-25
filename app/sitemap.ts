@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/timestamp-to-date",
     "/tools/timezone-converter",
     "/tools/current-unix-timestamp",
+    "/tools/time-unit-converter",
   ];
 
   const tools = toolPaths.map((path) => ({

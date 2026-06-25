@@ -15,6 +15,7 @@ export const WHEN_USE: Bilingual[] = [
   { zh: "数据库查询：在数据库记录和人类可读日期之间转换", en: "Database queries: convert between database records and human-readable dates" },
   { zh: "时区转换：查看同一时刻在不同时区的时间", en: "Timezone conversion: see the same moment in different timezones" },
   { zh: "批量处理：一次转换多个时间戳用于数据分析", en: "Batch processing: convert multiple timestamps at once for data analysis" },
+  { zh: "单位换算：在年、日、秒、毫秒、纳秒等时间单位之间换算", en: "Unit conversion: convert between time units like years, days, seconds, milliseconds, and nanoseconds" },
 ];
 
 export const HOWTOS: HowTo[] = [
@@ -46,6 +47,16 @@ export const HOWTOS: HowTo[] = [
       { zh: "切换到批量转换标签", en: "Switch to the Batch Convert tab" },
       { zh: "在文本框中粘贴多个时间戳（每行一个）", en: "Paste multiple timestamps in the text area (one per line)" },
       { zh: "查看每个时间戳对应的日期", en: "View the date for each timestamp" },
+    ],
+  },
+  {
+    id: "convert-time-units",
+    name: { zh: "如何换算时间单位", en: "How to convert between time units" },
+    steps: [
+      { zh: "打开 Time Shuttle 网站", en: "Open the Time Shuttle website" },
+      { zh: "切换到「单位」标签", en: "Switch to the Units tab" },
+      { zh: "输入数值并选择源单位（如秒、天、年）", en: "Enter a value and select the source unit (e.g. seconds, days, years)" },
+      { zh: "立即查看换算成所有时间单位的结果", en: "Instantly see the value converted into every time unit" },
     ],
   },
 ];
@@ -83,6 +94,14 @@ export const FAQS: FaqItem[] = [
     q: { zh: "什么是闰秒？Time Shuttle 考虑了闰秒吗？", en: "What are leap seconds? Does Time Shuttle account for them?" },
     a: { zh: "闰秒是为了让 UTC 与地球自转同步而偶尔添加的额外秒数。Unix 时间戳的定义不计闰秒，因此 1700000000 始终对应相同的 UTC 时刻，不受闰秒影响。Time Shuttle 遵循此标准。", en: "Leap seconds are occasional extra seconds added to keep UTC synchronized with Earth's rotation. Unix timestamps by definition do not count leap seconds, so 1700000000 always corresponds to the same UTC moment regardless of leap seconds. Time Shuttle follows this standard." },
   },
+  {
+    q: { zh: "Time Shuttle 能换算时间单位吗？", en: "Can Time Shuttle convert between time units?" },
+    a: { zh: "可以。在「单位」标签中输入一个数值并选择源单位，工具会立即把它换算成所有时间单位 —— 年、月、周、日、时、分、秒，以及毫秒、微秒、纳秒、皮秒、飞秒、阿秒、仄秒和幺秒。", en: "Yes. In the Units tab, enter a value and choose its source unit, and the tool instantly converts it into every time unit — years, months, weeks, days, hours, minutes, seconds, plus milliseconds, microseconds, nanoseconds, picoseconds, femtoseconds, attoseconds, zeptoseconds, and yoctoseconds." },
+  },
+  {
+    q: { zh: "1 天等于多少秒、毫秒、纳秒？", en: "How many seconds, milliseconds, and nanoseconds are in a day?" },
+    a: { zh: "1 天 = 86,400 秒 = 86,400,000 毫秒 = 86,400,000,000,000 纳秒。在 Time Shuttle 的「单位」标签中输入 1 天，即可查看它在所有时间单位下的数值。", en: "One day = 86,400 seconds = 86,400,000 milliseconds = 86,400,000,000,000 nanoseconds. Enter 1 day in the Units tab of Time Shuttle to see its value in every time unit." },
+  },
 ];
 
 export const COMPARISON = {
@@ -96,6 +115,7 @@ export const COMPARISON = {
       ["时区转换", "✓", "✓", "✓"],
       ["相对时间显示", "✓", "✗", "✗"],
       ["批量转换", "✓", "✗", "✗"],
+      ["时间单位换算", "✓", "✗", "✗"],
       ["多格式输出", "✓", "✓", "✓"],
       ["无广告", "✓", "✗", "✓"],
       ["界面简洁", "✓", "一般", "一般"],
@@ -111,6 +131,7 @@ export const COMPARISON = {
       ["Timezone Conversion", "✓", "✓", "✓"],
       ["Relative Time Display", "✓", "✗", "✗"],
       ["Batch Conversion", "✓", "✗", "✗"],
+      ["Time Unit Conversion", "✓", "✗", "✗"],
       ["Multi-format Output", "✓", "✓", "✓"],
       ["Ad-free", "✓", "✗", "✓"],
       ["Clean Interface", "✓", "OK", "OK"],
