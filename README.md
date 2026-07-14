@@ -2,6 +2,8 @@
 
 A free, privacy-first online Unix timestamp and date converter. Convert timestamps, compare timezones, calculate relative time, and batch-process multiple timestamps — fast, in your browser. Everything runs in the browser; no data is sent to any server.
 
+**🔗 Try it live: [Free Unix timestamp & timezone converter](https://time.shuttlelab.org)** — convert timestamps and timezones instantly in your browser.
+
 ## Features
 
 - **Unix ↔ Date Conversion** — Paste a Unix timestamp (seconds or milliseconds) to get a human-readable date, or enter a date to get the Unix timestamp. Auto-detects 10-digit (seconds) vs 13-digit (milliseconds) input.
